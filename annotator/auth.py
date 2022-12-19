@@ -75,7 +75,7 @@ class Authenticator(object):
             return False
 
         try:
-            unsafe_token = decode_token(token, verify=False)
+            unsafe_token = decode_token(token, 'yourconsumersecret', verify=False)
         except TokenInvalid:  # catch junk tokens
             return False
 
@@ -113,7 +113,7 @@ def decode_token(token, secret='', ttl=DEFAULT_TTL, verify=True):
                 token = bytes(token, 'utf-8')
             else:
                 token = bytes(token)
-        token = jwt.decode(token, secret, verify=verify)
+        token = jwt.decode(token, secret, verify=verify, algorithms=["HS256"])
     except jwt.DecodeError:
         import sys
         exc_class, exc, tb = sys.exc_info()

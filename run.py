@@ -85,7 +85,7 @@ def main(argv):
         # in the Annotator authentication documentation[1].
         #
         # [1]: https://github.com/okfn/annotator/wiki/Authentication
-        g.user = MockUser('alice')
+        g.user = MockUser('mymockuser')
 
         # By default, this test application won't do full-on authentication
         # tests. Set AUTH_ON to True in the config file to enable (limited)
