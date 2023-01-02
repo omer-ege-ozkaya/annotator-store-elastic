@@ -2,42 +2,61 @@ from annotator import authz, document, es
 
 TYPE = 'annotation'
 MAPPING = {
+
+    '@context': {'type': 'string'},
     'id': {'type': 'string', 'index': 'no'},
-    'annotator_schema_version': {'type': 'string'},
-    'created': {'type': 'date'},
-    'updated': {'type': 'date'},
-    'quote': {'type': 'string', 'analyzer': 'standard'},
-    'tags': {'type': 'string', 'index_name': 'tag'},
-    'text': {'type': 'string', 'analyzer': 'standard'},
-    'uri': {'type': 'string'},
-    'user': {'type': 'string'},
-    'consumer': {'type': 'string'},
-    'ranges': {
-        'index_name': 'range',
+    'type': {'type': 'string'},
+    'creator': {'type': 'string'},
+    'body': {'type': 'string'},
+    'target': {
+        'index_name': 'target',
         'properties': {
-            'start': {'type': 'string'},
-            'end': {'type': 'string'},
-            'startOffset': {'type': 'integer'},
-            'endOffset': {'type': 'integer'},
+            'source': {'type': 'string'},
+            'selector': {
+                'index_name': 'selector',
+                'properties': {
+                    'type': {'type': 'string'},
+                    'start': {'type': 'integer'},
+                    'end': {'type': 'integer'}
+                }
+            }
         }
-    },
-    'permissions': {
-        'index_name': 'permission',
-        'properties': {
-            'read': {'type': 'string'},
-            'update': {'type': 'string'},
-            'delete': {'type': 'string'},
-            'admin': {'type': 'string'}
-        }
-    },
-    'document': {
-        'properties': document.MAPPING
     }
+
+    # 'annotator_schema_version': {'type': 'string'},
+    # 'created': {'type': 'date'},
+    # 'updated': {'type': 'date'},
+    # 'quote': {'type': 'string', 'analyzer': 'standard'},
+    # 'tags': {'type': 'string', 'index_name': 'tag'},
+    # 'text': {'type': 'string', 'analyzer': 'standard'},
+    # 'uri': {'type': 'string'},
+    # # 'user': {'type': 'string'},
+    # 'consumer': {'type': 'string'},
+    # 'ranges': {
+    #     'index_name': 'range',
+    #     'properties': {
+    #         'start': {'type': 'string'},
+    #         'end': {'type': 'string'},
+    #         'startOffset': {'type': 'integer'},
+    #         'endOffset': {'type': 'integer'},
+    #     }
+    # },
+    # 'permissions': {
+    #     'index_name': 'permission',
+    #     'properties': {
+    #         'read': {'type': 'string'},
+    #         'update': {'type': 'string'},
+    #         'delete': {'type': 'string'},
+    #         'admin': {'type': 'string'}
+    #     }
+    # },
+    # 'document': {
+    #     'properties': document.MAPPING
+    # }
 }
 
 
 class Annotation(es.Model):
-
     __type__ = TYPE
     __mapping__ = MAPPING
 

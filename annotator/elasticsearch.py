@@ -165,6 +165,10 @@ class _Model(dict):
             query = {}
         if params is None:
             params = {}
+
+        mylist = []
+
+        query['query']['filtered']['filter']['or'].append({'term': {'@context': 'http://www.w3.org/ns/anno.jsonld'}})
         res = cls.es.conn.search(index=cls.es.index,
                                  doc_type=cls.__type__,
                                  body=query,
@@ -185,6 +189,8 @@ class _Model(dict):
     def save(self, refresh=True):
         _add_created(self)
         _add_updated(self)
+        self.pop('user')
+        self.pop('consumer')
 
         if 'id' not in self:
             op_type = 'create'
